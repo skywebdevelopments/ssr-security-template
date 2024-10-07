@@ -1,13 +1,13 @@
 "use client";
-import { redirect } from "next/navigation";
-
+import { useRouter } from "next/navigation"; 
 function BackToLogin() {
+    const router = useRouter();
 
   const handleBackToLogin = () => {
     // Client-side redirect using useRouter
     console.log("handleBackToLogin");
-    
-    redirect("/login");
+
+    router.push("/login");
   };
   return (
     <div>

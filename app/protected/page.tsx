@@ -3,6 +3,7 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import { fetchClient } from "../http_client/fetchClient";
+import BackToLogin from "../utils/BackToLogin";
 export default async function Dashboard() {
   const session: any = await getServerSession(authOptions);
 
@@ -15,18 +16,20 @@ export default async function Dashboard() {
     session,
   });
 
-
   return (
     <div>
       <h1>Welcome, {session.user.email}!</h1>
       <h3>your id is {session.user.id}</h3>
-      {data.map((rec: any) => {
-        return (
-          <p className="text-red-300 m-5 font-bold text-9xl" key={rec.Key}>
-            {rec.Key}
-          </p>
-        );
-      })}
+      {data &&
+        data.length > 0 &&
+        data.map((rec: any) => {
+          return (
+            <p className="text-red-300 m-5 font-bold text-9xl" key={rec.Key}>
+              <span>{rec.Record.apartmentNumber}</span>
+            </p>
+          );
+        })}
+     
     </div>
   );
 }
