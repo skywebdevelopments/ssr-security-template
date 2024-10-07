@@ -13,7 +13,6 @@ export const authOptions: NextAuthOptions = {
         formData.append("client_id", "CIB-Bank");
         formData.append("client_secret", "SjlCo62wSoFzh9AYqejgxShqKpRoVpYw");
         formData.append("scope", "openid");
-        console.log(formData);
 
         const res = await fetch(
           "http://127.0.0.1:8080/realms/myrealm/protocol/openid-connect/token",
@@ -30,8 +29,9 @@ export const authOptions: NextAuthOptions = {
 
         if (res.ok && isAuthienticated) {
           // If successful, return the user object
-          let user = { id: "123", email: "ahmed.shalaby@cyshield.com" };
-          return user;
+          isAuthienticated["id"] = "123";
+          isAuthienticated["email"] = "ahmed.shalaby@cyshield.com";
+          return isAuthienticated;
         }
 
         // If authentication fails, return null
@@ -52,6 +52,11 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.email = user.email;
         token.access_token = user.access_token;
+        token.refresh_token = user.refresh_token;
+        token.session_state = user.session_state;
+        token.refresh_expires_in = user.refresh_expires_in;
+        token.session_state = user.session_state;
+        token.expires_in = user.expires_in;
       }
       return token;
     },
@@ -59,6 +64,10 @@ export const authOptions: NextAuthOptions = {
       session.user.id = token.id;
       session.user.email = token.email;
       session.access_token = token.access_token;
+      session.refresh_token = token.refresh_token;
+      session.session_state = token.session_state;
+      session.refresh_expires_in = token.refresh_expires_in;
+      session.expires_in = token.expires_in;
       return session;
     },
   },
