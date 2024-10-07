@@ -28,7 +28,6 @@ export default async function Dashboard() {
             </p>
           );
         })}
-      <div className="w-96 h-32 "></div>
     </div>
   );
 }
