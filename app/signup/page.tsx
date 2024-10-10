@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
+
 import { toast } from "sonner";
-import { z } from "zod";
 import { ActionRegisterUser } from "../actions/ActionRegisterUser";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -14,56 +13,46 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useForm, SubmitHandler } from "react-hook-form";
 
-const schema = z.object({
-  firstName: z
-    .string({ invalid_type_error: "error firstname" })
-    .min(5, "Password must be at least 5 characters long."),
-  lastName: z
-    .string({ invalid_type_error: "error lastname" })
-    .min(5, "Password must be at least 5 characters long."),
-  email: z.string().email("Invalid email address"),
-  password: z
-    .string()
+type FormData = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  dob: string;
+  nationalId: string;
+  mobileNumber: string;
+};
 
-    .min(5, "Password must be at least 5 characters long.")
-    .max(22, "Password cannot exceed 22 characters."),
-  dob: z.string().min(5, "Password must be at least 5 characters long."),
-  nationalId: z
-    .string()
-    .length(14, "National ID must be exactly 14 digits long."),
-  mobileNumber: z
-    .string()
-    .length(11, "Mobile number must be exactly 11 digits long."),
-});
+function Page() {
+  // Initialize React Hook Form
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
 
-function page() {
-  const clientAction = (formData: FormData) => {
-    const validatedFields = schema.safeParse({
-      email: formData.get("email"),
-      password: formData.get("password"),
-      lastName: formData.get("lastName"),
-      firstName: formData.get("firstName"),
-      mobileNumber: formData.get("mobileNumber"),
-      dob: formData.get("dob"),
-      nationalId: formData.get("nationalId"),
-    });
-
-    if (!validatedFields.success) {
-      let errors = validatedFields.error.issues;
-
-      errors.forEach((er, index) => {
-        toast(`  ${er.message}`, {duration:10000});
-      });
-
-      return;
-    }
-    ActionRegisterUser(formData);
+  // Handle successful form submission
+  const onSubmit: SubmitHandler<FormData> = (data: any) => {
+    
+    ActionRegisterUser(data);
   };
+
+  // Handle form submission errors
+  const onError = (errors: any) => {
+    // Iterate through each error and display a toast
+    Object.values(errors).forEach((error: any) => {
+      if (error?.message) {
+        toast(error.message, { duration: 10000 });
+      }
+    });
+  };
+
   return (
-    <div>
-      <form action={clientAction} method="POST">
-        <Card className="mx-auto max-w-sm">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <form onSubmit={handleSubmit(onSubmit, onError)} method="POST">
+        <Card className="w-full max-w-sm">
           <CardHeader>
             <CardTitle className="text-xl">Sign Up</CardTitle>
             <CardDescription>
@@ -77,9 +66,16 @@ function page() {
                 <Label htmlFor="firstName">First Name</Label>
                 <Input
                   id="firstName"
-                  name="firstName"
+                  {...register("firstName", {
+                    required: "First name is required.",
+                    minLength: {
+                      value: 5,
+                      message: "First name must be at least 5 characters long.",
+                    },
+                  })}
                   type="text"
                   placeholder="John"
+                  className={`${errors.firstName ? "border-red-500" : ""}`}
                 />
               </div>
 
@@ -88,9 +84,16 @@ function page() {
                 <Label htmlFor="lastName">Last Name</Label>
                 <Input
                   id="lastName"
-                  name="lastName"
+                  {...register("lastName", {
+                    required: "Last name is required.",
+                    minLength: {
+                      value: 5,
+                      message: "Last name must be at least 5 characters long.",
+                    },
+                  })}
                   type="text"
                   placeholder="Doe"
+                  className={`${errors.lastName ? "border-red-500" : ""}`}
                 />
               </div>
 
@@ -99,34 +102,87 @@ function page() {
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
-                  name="email"
-                  type="text"
+                  {...register("email", {
+                    required: "Email is required.",
+                    pattern: {
+                      value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+                      message: "Invalid email address.",
+                    },
+                  })}
+                  type="email"
                   placeholder="m@example.com"
+                  className={`${errors.email ? "border-red-500" : ""}`}
                 />
               </div>
 
               {/* Password */}
               <div className="grid gap-2">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" name="password" type="password" />
+                <Input
+                  id="password"
+                  {...register("password", {
+                    required: "Password is required.",
+                    minLength: {
+                      value: 5,
+                      message: "Password must be at least 5 characters long.",
+                    },
+                    maxLength: {
+                      value: 22,
+                      message: "Password cannot exceed 22 characters.",
+                    },
+                  })}
+                  type="password"
+                  className={`${errors.password ? "border-red-500" : ""}`}
+                />
               </div>
 
               {/* Date of Birth */}
               <div className="grid gap-2">
                 <Label htmlFor="dob">Date of Birth</Label>
-                <Input id="dob" name="dob" type="date" />
+                <Input
+                  id="dob"
+                  {...register("dob", {
+                    required: "Date of Birth is required.",
+                  })}
+                  type="date"
+                  className={`${errors.dob ? "border-red-500" : ""}`}
+                />
               </div>
 
               {/* National ID */}
               <div className="grid gap-2">
                 <Label htmlFor="nationalId">National ID</Label>
-                <Input id="nationalId" name="nationalId" type="text" />
+                <Input
+                  id="nationalId"
+                  {...register("nationalId", {
+                    required: "National ID is required.",
+                    pattern: {
+                      value: /^\d{14}$/,
+                      message: "National ID must be exactly 14 digits long.",
+                    },
+                  })}
+                  type="text"
+                  placeholder="12345678901234"
+                  className={`${errors.nationalId ? "border-red-500" : ""}`}
+                />
               </div>
 
               {/* Mobile Number */}
               <div className="grid gap-2">
                 <Label htmlFor="mobileNumber">Mobile Number</Label>
-                <Input id="mobileNumber" name="mobileNumber" type="text" />
+                <Input
+                  id="mobileNumber"
+                  {...register("mobileNumber", {
+                    required: "Mobile number is required.",
+                    pattern: {
+                      value: /^\d{11}$/,
+                      message: "Mobile number must be exactly 11 digits long.",
+                    },
+                  })}
+                  type="text"
+                  placeholder="01234567890"
+                  className={`${errors.mobileNumber ? "border-red-500" : ""}`}
+                />
               </div>
 
               {/* Submit Button */}
@@ -141,4 +197,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

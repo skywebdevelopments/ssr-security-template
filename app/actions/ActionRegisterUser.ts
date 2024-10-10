@@ -1,23 +1,11 @@
 "use server";
 
-import { toast } from "sonner";
-import { z } from "zod";
-
-const schema = z.object({
-  email: z
-    .string({
-      invalid_type_error: "Invalid Email",
-    })
-    .email({ message: "not a valid email" }),
-});
-
-export async function ActionRegisterUser(formData: FormData) {
+export async function ActionRegisterUser(formData: any) {
   "use server";
-    console.log(formData);
-    
+
   const formData1 = new URLSearchParams();
-  formData1.append("username", "");
-  formData1.append("password", "");
+  formData1.append("username", "cib-admin");
+  formData1.append("password", "admin");
   formData1.append("grant_type", process.env.GRANT_TYPE as string);
   formData1.append("client_id", process.env.KEYCLOAK_CLIENT_ID as string);
   formData1.append(
@@ -36,26 +24,56 @@ export async function ActionRegisterUser(formData: FormData) {
       body: formData1,
     }
   );
-  console.log(await res.json());
-  const validatedFields = schema.safeParse({
-    email: formData.get("email"),
+  console.log(formData1);
+
+  let jwt = await res.json();
+  console.log(jwt.access_token);
+
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", `Bearer ${jwt.access_token}`);
+
+  const raw = JSON.stringify({
+    username: formData.email.split('@')[0],
+    enabled: true,
+    totp: false,
+    emailVerified: true,
+    firstName: formData.firstName,
+    lastName: formData.lastName,
+    email: formData.email,
+    disableableCredentialTypes: [],
+    requiredActions: [],
+    notBefore: 0,
+    access: {
+      manageGroupMembership: true,
+      view: true,
+      mapRoles: true,
+      impersonate: true,
+      manage: true,
+    },
+    attributes: {
+      national_id: "291021921006971",
+    },
+    realmRoles: ["mb-user"],
   });
 
-  // Return early if the form data is invalid
-  if (!validatedFields.success) {
-    let errors = {
-      errors: validatedFields.error.flatten().fieldErrors,
-    };
-
-
-    return errors;
-  }
-  const rawFormData = {
-    email: formData.get("email"),
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
   };
 
-  console.log(rawFormData);
-
-  // mutate data
-  // revalidate cache
+  fetch("http://127.0.0.1:8080/admin/realms/myrealm/users", {
+    method: requestOptions.method,
+    headers: requestOptions.headers,
+    body: requestOptions.body,
+  })
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+  // Return early if the form data is invalid
 }
+
+// mutate data
+// revalidate cache
