@@ -34,40 +34,43 @@ import {
   ChartTooltipContent,
 } from "@/components//ui/chart";
 import { Separator } from "@/components//ui/separator";
+import { CAUsersTable } from "./UsersTable";
 
 export const description = "A collection of health charts.";
 
-export function DashboardStatsCharts() {
+export function DashboardStatsCharts({ session }: any) {
   return (
     <div className="chart-wrapper mx-auto flex max-w-6xl flex-col flex-wrap items-start justify-center gap-6 p-6 sm:flex-row sm:p-8">
-       <div className="grid grid-cols-3 w-full flex-2 gap-1">
+      <div className="grid grid-cols-3 w-full flex-2 gap-1">
         <Card className="max-w-xs" x-chunk="charts-01-chunk-5">
           <CardContent className="flex gap-4 p-4">
             <div className="grid items-center gap-2">
               <div className="grid flex-1 auto-rows-min gap-0.5">
-                <div className="text-sm text-muted-foreground">Move</div>
+                <div className="text-sm text-muted-foreground">Candidate 1</div>
                 <div className="flex items-baseline gap-1 text-xl font-bold tabular-nums leading-none">
                   562/600
                   <span className="text-sm font-normal text-muted-foreground">
-                    kcal
+                    vote
                   </span>
                 </div>
               </div>
               <div className="grid flex-1 auto-rows-min gap-0.5">
-                <div className="text-sm text-muted-foreground">Exercise</div>
+                <div className="text-sm text-muted-foreground">Candidate 2</div>
                 <div className="flex items-baseline gap-1 text-xl font-bold tabular-nums leading-none">
                   73/120
                   <span className="text-sm font-normal text-muted-foreground">
-                    min
+                    vote
                   </span>
                 </div>
               </div>
               <div className="grid flex-1 auto-rows-min gap-0.5">
-                <div className="text-sm text-muted-foreground">Stand</div>
+                <div className="text-sm text-muted-foreground">
+                  Candidate 3{" "}
+                </div>
                 <div className="flex items-baseline gap-1 text-xl font-bold tabular-nums leading-none">
                   8/12
                   <span className="text-sm font-normal text-muted-foreground">
-                    hr
+                    vote
                   </span>
                 </div>
               </div>
@@ -131,7 +134,7 @@ export function DashboardStatsCharts() {
         </Card>
         <Card className="max-w-xs" x-chunk="charts-01-chunk-6">
           <CardHeader className="p-4 pb-0">
-            <CardTitle>Active Energy</CardTitle>
+            <CardTitle>Active App Sessions</CardTitle>
             <CardDescription>
               You're burning an average of 754 calories per day. Good job!
             </CardDescription>
@@ -212,7 +215,7 @@ export function DashboardStatsCharts() {
         </Card>
         <Card className="max-w-xs" x-chunk="charts-01-chunk-7">
           <CardHeader className="space-y-0 pb-0">
-            <CardDescription>Time in Bed</CardDescription>
+            <CardDescription>Network performance (execution)</CardDescription>
             <CardTitle className="flex items-baseline gap-1 text-4xl tabular-nums">
               8
               <span className="font-sans text-sm font-normal tracking-normal text-muted-foreground">
@@ -314,7 +317,8 @@ export function DashboardStatsCharts() {
             </ChartContainer>
           </CardContent>
         </Card>
-      </div>  
+      </div>
+
       <div className="grid w-full gap-6 sm:grid-cols-2 lg:max-w-[22rem] lg:grid-cols-1 xl:max-w-[25rem]">
         <Card className="lg:max-w-md" x-chunk="charts-01-chunk-0">
           <CardHeader className="space-y-0 pb-2">
@@ -562,7 +566,7 @@ export function DashboardStatsCharts() {
           </CardContent>
         </Card>
       </div>
-      
+
       <div className="grid w-full flex-1 gap-6 lg:max-w-[20rem]">
         <Card className="max-w-xs" x-chunk="charts-01-chunk-2">
           <CardHeader>
@@ -762,16 +766,16 @@ export function DashboardStatsCharts() {
           <CardContent className="flex gap-4 p-4 pb-2">
             <ChartContainer
               config={{
-                move: {
-                  label: "Move",
+                Vote1: {
+                  label: "Vote1",
                   color: "hsl(var(--chart-1))",
                 },
-                stand: {
-                  label: "Stand",
+                Vote2: {
+                  label: "Vote2",
                   color: "hsl(var(--chart-2))",
                 },
-                exercise: {
-                  label: "Exercise",
+                Vote3: {
+                  label: "Vote3",
                   color: "hsl(var(--chart-3))",
                 },
               }}
@@ -786,19 +790,19 @@ export function DashboardStatsCharts() {
                 }}
                 data={[
                   {
-                    activity: "stand",
+                    activity: "vote1",
                     value: (8 / 12) * 100,
                     label: "8/12 hr",
                     fill: "var(--color-stand)",
                   },
                   {
-                    activity: "exercise",
+                    activity: "vote2",
                     value: (46 / 60) * 100,
                     label: "46/60 min",
                     fill: "var(--color-exercise)",
                   },
                   {
-                    activity: "move",
+                    activity: "vote3",
                     value: (245 / 360) * 100,
                     label: "245/360 kcal",
                     fill: "var(--color-move)",
@@ -864,7 +868,10 @@ export function DashboardStatsCharts() {
           </CardFooter>
         </Card>
       </div>
-     
+
+      <div className="grid w-full ">
+        <CAUsersTable session={session} />
+      </div>
     </div>
   );
 }

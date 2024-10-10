@@ -7,12 +7,12 @@ export const authOptions: NextAuthOptions = {
       name: "Custom Backend",
       async authorize(credentials: any) {
         const formData = new URLSearchParams();
-        formData.append("username", "cib-admin");
-        formData.append("password", "admin");
-        formData.append("grant_type", "password");
-        formData.append("client_id", "CIB-Bank");
-        formData.append("client_secret", "SjlCo62wSoFzh9AYqejgxShqKpRoVpYw");
-        formData.append("scope", "openid");
+        formData.append("username", credentials.email);
+        formData.append("password", credentials.password);
+        formData.append("grant_type",process.env.GRANT_TYPE as string);
+        formData.append("client_id", process.env.KEYCLOAK_CLIENT_ID as string);
+        formData.append("client_secret", process.env.KEYCLOAK_CLIENT_SECRET as string);
+        formData.append("scope", process.env.SCOPE as string);
 
         const res = await fetch(
           "http://127.0.0.1:8080/realms/myrealm/protocol/openid-connect/token",

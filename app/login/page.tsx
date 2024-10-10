@@ -2,7 +2,7 @@
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -10,12 +10,12 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export const description =
-  "A simple login form with email and password. The submit button says 'Sign in'."
+  "A simple login form with email and password. The submit button says 'Sign in'.";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -41,28 +41,44 @@ export default function LoginForm() {
   };
 
   return (
-   <div className="m-44 flex flex-row">
-     <Card className="w-full m-auto max-w-sm">
-      <CardHeader>
-        <CardTitle className="text-2xl">Login</CardTitle>
-        <CardDescription>
-          Enter your email below to login to your account.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="grid gap-4">
-        <div className="grid gap-2">
-          <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="m@example.com" required />
+    <div className="m-44 flex flex-row">
+      <Card className="w-full m-auto max-w-sm">
+        <CardHeader>
+          <CardTitle className="text-2xl">Login</CardTitle>
+          <CardDescription>
+            Enter your email below to login to your account.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-4">
+          <div className="grid gap-2">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              onChange={(e) => setEmail(e.target.value)}
+              id="email"
+              type="email"
+              placeholder="m@example.com"
+              required
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="password">Password</Label>
+            <Input
+              onChange={(e) => setPassword(e.target.value)}
+              id="password"
+              type="password"
+              required
+            />
+          </div>
+        </CardContent>
+        <CardFooter>
+          <Button onClick={handleSubmit} className="w-full">
+            Sign in
+          </Button>
+        </CardFooter>
+        <div className="flex flex-row m-4  justify-center ">
+          <p className="m-auto text-red-900 font-bold">{error && error}</p>
         </div>
-        <div className="grid gap-2">
-          <Label htmlFor="password">Password</Label>
-          <Input id="password" type="password" required />
-        </div>
-      </CardContent>
-      <CardFooter>
-        <Button onClick={handleSubmit} className="w-full">Sign in</Button>
-      </CardFooter>
-    </Card>
-   </div>
-  )
+      </Card>
+    </div>
+  );
 }

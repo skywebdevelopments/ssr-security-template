@@ -4,6 +4,7 @@ import Link from "next/link";
 import {
   ChevronLeft,
   ChevronRight,
+  ContainerIcon,
   Copy,
   CreditCard,
   File,
@@ -73,13 +74,18 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { DashboardStatsCharts } from "./DashboardStatsCharts";
-
+import { INetworkMetaDataInterface } from "../interfaces/INetworkInterface";
 export const description =
   "An orders dashboard with a sidebar navigation. The sidebar has icon navigation. The content area has a breadcrumb and search in the header. The main area has a list of recent orders with a filter and export button. The main area also has a detailed view of a single order with order details, shipping information, billing information, customer information, and payment information.";
-
-export function DashboardLayout() {
+interface props {
+  network_metadata: INetworkMetaDataInterface;
+  session: any;
+}
+export function DashboardLayout({ network_metadata, session }: props) {
   return (
+    
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
+        
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
         <nav className="flex flex-col items-center gap-4 px-2 sm:py-4">
           <Link
@@ -243,12 +249,14 @@ export function DashboardLayout() {
               <BreadcrumbSeparator />
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
-                  <Link href="#">Orders</Link>
+                  <Link href="#">
+                    {network_metadata?.network?.channel?.name}
+                  </Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>Recent Orders</BreadcrumbPage>
+                <BreadcrumbPage>Performance</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -288,14 +296,14 @@ export function DashboardLayout() {
         </header>
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
           <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
-            <DashboardStatsCharts />
+            <DashboardStatsCharts session={session} />
           </div>
           <div>
             <Card className="overflow-hidden" x-chunk="dashboard-05-chunk-4">
               <CardHeader className="flex flex-row items-start bg-muted/50">
                 <div className="grid gap-0.5">
                   <CardTitle className="group flex items-center gap-2 text-lg">
-                    Order Oe31b70H
+                    Network Meta-Data
                     <Button
                       size="icon"
                       variant="outline"
@@ -305,13 +313,15 @@ export function DashboardLayout() {
                       <span className="sr-only">Copy Order ID</span>
                     </Button>
                   </CardTitle>
-                  <CardDescription>Date: November 23, 2023</CardDescription>
+                  <CardDescription>
+                    Date: {new Date().toLocaleDateString() as string}
+                  </CardDescription>
                 </div>
                 <div className="ml-auto flex items-center gap-1">
                   <Button size="sm" variant="outline" className="h-8 gap-1">
-                    <Truck className="h-3.5 w-3.5" />
+                    <ContainerIcon className="h-3.5 w-3.5" />
                     <span className="lg:sr-only xl:not-sr-only xl:whitespace-nowrap">
-                      Track Order
+                      {network_metadata?.network?.channel?.name}
                     </span>
                   </Button>
                   <DropdownMenu>
@@ -332,82 +342,116 @@ export function DashboardLayout() {
               </CardHeader>
               <CardContent className="p-6 text-sm">
                 <div className="grid gap-3">
-                  <div className="font-semibold">Order Details</div>
+                  <div className="font-semibold capitalize">
+                    {" "}
+                    {network_metadata?.network?.channel?.client.name}
+                  </div>
                   <ul className="grid gap-3">
                     <li className="flex items-center justify-between">
-                      <span className="text-muted-foreground">
-                        Glimmer Lamps x <span>2</span>
+                      <span className="text-muted-foreground">Committers</span>
+                      <span>
+                        {network_metadata?.network?.committers?.length}
                       </span>
-                      <span>$250.00</span>
                     </li>
                     <li className="flex items-center justify-between">
-                      <span className="text-muted-foreground">
-                        Aqua Filters x <span>1</span>
-                      </span>
-                      <span>$49.00</span>
+                      <span className="text-muted-foreground">endorsers</span>
+                      <span>{network_metadata?.network?.endorsers.length}</span>
+                    </li>
+                    <li className="flex items-center justify-between">
+                      <span className="text-muted-foreground">MSP IDS</span>
+                      <span>{network_metadata?.network?.mspids.length}</span>
                     </li>
                   </ul>
                   <Separator className="my-2" />
                   <ul className="grid gap-3">
                     <li className="flex items-center justify-between">
-                      <span className="text-muted-foreground">Subtotal</span>
-                      <span>$299.00</span>
+                      <span className="text-muted-foreground">MSP(s)</span>
+                      <span>{network_metadata?.network?.mspids.length}</span>
                     </li>
-                    <li className="flex items-center justify-between">
-                      <span className="text-muted-foreground">Shipping</span>
-                      <span>$5.00</span>
-                    </li>
-                    <li className="flex items-center justify-between">
-                      <span className="text-muted-foreground">Tax</span>
-                      <span>$25.00</span>
-                    </li>
-                    <li className="flex items-center justify-between font-semibold">
-                      <span className="text-muted-foreground">Total</span>
-                      <span>$329.00</span>
-                    </li>
+
+                    {network_metadata?.network?.mspids.map((msp, index) => {
+                      return (
+                        <>
+                          <li
+                            key={index}
+                            className="flex items-center justify-between"
+                          >
+                            <span className="text-black">{msp}</span>
+                            <span></span>
+                          </li>
+                        </>
+                      );
+                    })}
                   </ul>
                 </div>
                 <Separator className="my-4" />
-                <div className="grid grid-cols-2 gap-4">
+                {/* committers */}
+                <div className="grid grid-cols-1 gap-4">
                   <div className="grid gap-3">
-                    <div className="font-semibold">Shipping Information</div>
+                    <div className="font-semibold capitalize">
+                      Network committers (
+                      {network_metadata?.network?.committers.length})
+                    </div>
                     <address className="grid gap-0.5 not-italic text-muted-foreground">
-                      <span>Liam Johnson</span>
-                      <span>1234 Main St.</span>
-                      <span>Anytown, CA 12345</span>
+                      {network_metadata?.network?.committers.map(
+                        (committer, index) => {
+                          return (
+                            <>
+                              {index > 0 && <Separator />}
+                              <span
+                                className={
+                                  committer.connected
+                                    ? "text-green-700"
+                                    : "text-red-700"
+                                }
+                                key={index}
+                              >
+                                {committer.name} ({committer.endpoint.url}){" "}
+                              </span>
+                            </>
+                          );
+                        }
+                      )}
                     </address>
                   </div>
-                  <div className="grid auto-rows-max gap-3">
-                    <div className="font-semibold">Billing Information</div>
-                    <div className="text-muted-foreground">
-                      Same as shipping address
+                </div>
+                <Separator className="my-4" />
+                {/* endorser */}
+                <div className="grid grid-cols-1 gap-4">
+                  <div className="grid gap-3">
+                    <div className="font-semibold capitalize">
+                      Network endorser (
+                      {network_metadata?.network?.endorsers.length})
                     </div>
+                    <address className="grid gap-0.5 not-italic text-muted-foreground">
+                      {network_metadata?.network?.endorsers.map(
+                        (endorser, index) => {
+                          return (
+                            <>
+                              {" "}
+                              {index > 0 && <Separator />}
+                              <small>
+                                {endorser.mspid} - {endorser.client.name}
+                              </small>
+                              <span
+                                className={
+                                  endorser.connected
+                                    ? "text-green-700"
+                                    : "text-red-700"
+                                }
+                                key={index}
+                              >
+                                {endorser.name} ({endorser.endpoint.url}){" "}
+                              </span>
+                            </>
+                          );
+                        }
+                      )}
+                    </address>
                   </div>
                 </div>
-                <Separator className="my-4" />
-                <div className="grid gap-3">
-                  <div className="font-semibold">Customer Information</div>
-                  <dl className="grid gap-3">
-                    <div className="flex items-center justify-between">
-                      <dt className="text-muted-foreground">Customer</dt>
-                      <dd>Liam Jtohnson</dd>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <dt className="text-muted-foreground">Email</dt>
-                      <dd>
-                        <a href="mailto:">liam@acme.com</a>
-                      </dd>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <dt className="text-muted-foreground">Phone</dt>
-                      <dd>
-                        <a href="tel:">+1 234 567 890</a>
-                      </dd>
-                    </div>
-                  </dl>
-                </div>
-                <Separator className="my-4" />
-                <div className="grid gap-3">
+                {/* <Separator className="my-4" /> */}
+                {/* <div className="grid gap-3">
                   <div className="font-semibold">Payment Information</div>
                   <dl className="grid gap-3">
                     <div className="flex items-center justify-between">
@@ -418,11 +462,15 @@ export function DashboardLayout() {
                       <dd>**** **** **** 4532</dd>
                     </div>
                   </dl>
-                </div>
+                </div> */}
               </CardContent>
               <CardFooter className="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
                 <div className="text-xs text-muted-foreground">
-                  Updated <time dateTime="2023-11-23">November 23, 2023</time>
+                  Updated{" "}
+                  <time dateTime={new Date().toLocaleDateString()}>
+                    {new Date().toLocaleDateString()}{" "}
+                    {new Date().toLocaleTimeString()}
+                  </time>
                 </div>
                 <Pagination className="ml-auto mr-0 w-auto">
                   <PaginationContent>
