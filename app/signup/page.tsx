@@ -14,6 +14,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useState } from "react";
+import { redirect } from "next/navigation";
 
 type FormData = {
   firstName: string;
@@ -24,8 +26,11 @@ type FormData = {
   nationalId: string;
   mobileNumber: string;
 };
-
 function Page() {
+  const [creationResponse, setCreationResponse] = useState({
+    message: "",
+    status: 201 | 409,
+  });
   // Initialize React Hook Form
   const {
     register,
@@ -35,8 +40,10 @@ function Page() {
 
   // Handle successful form submission
   const onSubmit: SubmitHandler<FormData> = (data: any) => {
-    
-    ActionRegisterUser(data);
+    ActionRegisterUser(data).then((d) => {
+      d === 409 &&
+        setCreationResponse({ message: "user already exist", status: 409 });
+    });
   };
 
   // Handle form submission errors
@@ -111,8 +118,17 @@ function Page() {
                   })}
                   type="email"
                   placeholder="m@example.com"
-                  className={`${errors.email ? "border-red-500" : ""}`}
+                  className={`${
+                    errors.email || creationResponse.status === 409
+                      ? "border-red-500"
+                      : ""
+                  }`}
                 />
+                {creationResponse.status === 409 && (
+                  <span className="text-red-800">
+                    {creationResponse.message}
+                  </span>
+                )}
               </div>
 
               {/* Password */}

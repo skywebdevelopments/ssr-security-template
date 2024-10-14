@@ -9,9 +9,12 @@ export const authOptions: NextAuthOptions = {
         const formData = new URLSearchParams();
         formData.append("username", credentials.email);
         formData.append("password", credentials.password);
-        formData.append("grant_type",process.env.GRANT_TYPE as string);
+        formData.append("grant_type", process.env.GRANT_TYPE as string);
         formData.append("client_id", process.env.KEYCLOAK_CLIENT_ID as string);
-        formData.append("client_secret", process.env.KEYCLOAK_CLIENT_SECRET as string);
+        formData.append(
+          "client_secret",
+          process.env.KEYCLOAK_CLIENT_SECRET as string
+        );
         formData.append("scope", process.env.SCOPE as string);
 
         const res = await fetch(
@@ -27,10 +30,11 @@ export const authOptions: NextAuthOptions = {
 
         const isAuthienticated = await res.json();
 
+        
         if (res.ok && isAuthienticated) {
           // If successful, return the user object
-          isAuthienticated["id"] = "123";
-          isAuthienticated["email"] = "ahmed.shalaby@cyshield.com";
+          isAuthienticated["id"] = credentials.email;
+          isAuthienticated["email"] = credentials.email;
           return isAuthienticated;
         }
 

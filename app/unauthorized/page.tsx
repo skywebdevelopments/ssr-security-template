@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../api/auth/[...nextauth]/route";
-import BackToLogin from "../utils/BackToLogin";
+import BackToLogin from "../components/BackToLogin";
 
 async function page() {
   const session: any = await getServerSession(authOptions);

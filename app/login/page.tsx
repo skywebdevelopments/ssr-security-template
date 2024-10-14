@@ -14,9 +14,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-export const description =
-  "A simple login form with email and password. The submit button says 'Sign in'.";
-
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -71,7 +68,7 @@ export default function LoginForm() {
           </div>
         </CardContent>
         <CardFooter>
-          <Button onClick={handleSubmit} className="w-full">
+          <Button type="button" onClick={handleSubmit} className="w-full">
             Sign in
           </Button>
         </CardFooter>
