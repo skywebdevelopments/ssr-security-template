@@ -72,6 +72,9 @@ export default function LoginForm() {
             Sign in
           </Button>
         </CardFooter>
+        <div className=" text-slate-500 text-sm flex flex-row justify-center">
+          <a href="/signup">new user? register here</a>
+        </div>
         <div className="flex flex-row m-4  justify-center ">
           <p className="m-auto text-red-900 font-bold">{error && error}</p>
         </div>

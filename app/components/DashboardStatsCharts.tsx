@@ -870,7 +870,7 @@ export function DashboardStatsCharts({ session }: any) {
       </div>
 
       <div className="grid w-full ">
-        <CAUsersTable session={session} />
+        {/* <CAUsersTable session={session} /> */}
       </div>
     </div>
   );

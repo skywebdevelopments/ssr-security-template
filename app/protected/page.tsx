@@ -14,9 +14,9 @@ export default async function Dashboard() {
   if (!session) {
     return <p>You need to be logged in to view this page.</p>;
   }
-  console.log(session.access_token);
+
   
-  const res1 = await fetchClient("http://localhost:3005/assets", { session });
+  // const res1 = await fetchClient("http://localhost:3005/assets", { session });
 
   // const data12 = await res1.json();
 
