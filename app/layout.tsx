@@ -1,11 +1,13 @@
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter, Bebas_Neue, Chakra_Petch } from "next/font/google";
+import { Inter, Bebas_Neue, Cairo } from "next/font/google";
 
-const inter = Inter({
-  subsets: ["latin"],
+const inter = Cairo({
+  weight: "400",
+  style: "normal",
+  subsets: ["arabic", "latin"],
 });
 
 export const metadata: Metadata = {
@@ -23,7 +25,7 @@ export default function RootLayout({
       <body className={inter.className}>
         {children}
 
-        <Toaster expand={true} closeButton={true}  />
+        <Toaster expand={true} closeButton={true} />
       </body>
     </html>
   );

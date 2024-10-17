@@ -1,21 +1,19 @@
 // app/dashboard/page.js
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "../api/auth/[...nextauth]/route";
 import { fetchClient } from "../http_client/fetchClient";
-import { DashboardStatsCharts } from "../components/DashboardStatsCharts";
-
 import { INetworkMetaDataInterface } from "../interfaces/INetworkInterface";
-import { CAUsersTable } from "../components/UsersTable";
 import { DashboardLayout } from "../components/DashboardLayout";
+import { RetrieveSession } from "../util/client.keycloak";
+import NeedToLogin from "../(user-creation-redirection)/creation-error/page";
 
 export default async function Dashboard() {
-  const session: any = await getServerSession(authOptions);
-
+  const session = await RetrieveSession();
   if (!session) {
-    return <p>You need to be logged in to view this page.</p>;
+    return (
+      <>
+        <NeedToLogin /> 
+      </>
+    );
   }
-
-  
   // const res1 = await fetchClient("http://localhost:3005/assets", { session });
 
   // const data12 = await res1.json();

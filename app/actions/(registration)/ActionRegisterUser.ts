@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { RequireClientAccess } from "../util/client.keycloak";
+import { RequireClientAccess } from "../../util/client.keycloak";
 
 // TODO: change the METHOD to be client auth, not user auth
 
@@ -58,9 +58,11 @@ export async function ActionRegisterUser(formData: any) {
         method: requestOptions.method,
         headers: requestOptions.headers,
         body: requestOptions.body,
+        cache: "no-store",
       })
         .then((response) => {
-          console.log(response.status);
+          // console.log(response.status);
+
           response.status === 201 && redirect("/login");
           resolve(response.status);
         })

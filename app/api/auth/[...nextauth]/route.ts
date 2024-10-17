@@ -1,5 +1,6 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import jsonwebtoken from "jsonwebtoken";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -25,16 +26,24 @@ export const authOptions: NextAuthOptions = {
               "Content-Type": "application/x-www-form-urlencoded",
             },
             body: formData,
+            cache: "no-cache",
           }
         );
-
         const isAuthienticated = await res.json();
 
-        
         if (res.ok && isAuthienticated) {
           // If successful, return the user object
-          isAuthienticated["id"] = credentials.email;
-          isAuthienticated["email"] = credentials.email;
+
+          let decoded_jwt: any = jsonwebtoken.decode(
+            isAuthienticated.access_token
+          );
+          isAuthienticated["email"] = decoded_jwt.email;
+          isAuthienticated["name"] = decoded_jwt.name;
+          isAuthienticated["sub"] = decoded_jwt.sub;
+          isAuthienticated["exp"] = decoded_jwt.exp;
+          isAuthienticated["email_verified"] = decoded_jwt.email_verified;
+          isAuthienticated["roles"] = decoded_jwt.realm_access.roles;
+
           return isAuthienticated;
         }
 
@@ -52,9 +61,15 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async jwt({ token, user }: any) {
+      // console.log(token.name);
+
       if (user) {
-        token.id = user.id;
         token.email = user.email;
+        token.name = user.name;
+        token.sub = user.sub;
+        token.exp = user.exp;
+        token.email_verified = user.email_verified;
+        token.roles = user.roles;
         token.access_token = user.access_token;
         token.refresh_token = user.refresh_token;
         token.session_state = user.session_state;
@@ -62,6 +77,7 @@ export const authOptions: NextAuthOptions = {
         token.session_state = user.session_state;
         token.expires_in = user.expires_in;
       }
+
       return token;
     },
     async session({ session, token }: any) {
@@ -72,6 +88,12 @@ export const authOptions: NextAuthOptions = {
       session.session_state = token.session_state;
       session.refresh_expires_in = token.refresh_expires_in;
       session.expires_in = token.expires_in;
+      session.email = token.email;
+      session.name = token.name;
+      session.sub = token.sub;
+      session.exp = token.exp;
+      session.email_verified = token.email_verified;
+      session.roles = token.roles;
       return session;
     },
   },
