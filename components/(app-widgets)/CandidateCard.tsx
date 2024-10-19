@@ -7,15 +7,10 @@ type Candidate = {
   alt: string;
 };
 
-function CandidateCard({
-  rec,
-
-}: {
-  rec: Candidate;
-}) {
+function CandidateCard({ rec }: { rec: Candidate }) {
   return (
     <>
-      <div className="text-center  hover:text-3xl font-extrabold cursor-pointer">
+      <div className="text-center  hover:text-2xl font-extrabold cursor-pointer">
         <Image
           className={`rounded-full border-2 hover:border-8 hover:border-green-400 border-spacing-56 border-green-900 bg-green-300`}
           src={rec.avatar}
