@@ -40,20 +40,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={inter.className}>
-        {isValidToken.result ? (
-          <>
-            <AppTitle session={session} client_token={client_token} />
-
-            {children}
-
-            <Footer />
-            <Toaster expand={true} closeButton={true} />
-          </>
-        ) : (
-          <>{children}</>
-        )}
-      </body>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }
