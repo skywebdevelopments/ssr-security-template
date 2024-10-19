@@ -9,10 +9,9 @@ type Candidate = {
 
 function CandidateCard({
   rec,
-  changeImageBorder,
+
 }: {
   rec: Candidate;
-  changeImageBorder: any;
 }) {
   return (
     <>
