@@ -1,7 +1,11 @@
 import { signOut } from "next-auth/react";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth/next";
-
+import { decode, verify } from "jsonwebtoken";
+type TypeValidateTokenMessage = {
+  result: boolean;
+  message: string;
+};
 export async function RequireClientAccess() {
   const formData = new URLSearchParams();
   formData.append("grant_type", "client_credentials");
@@ -20,7 +24,7 @@ export async function RequireClientAccess() {
         "Content-Type": "application/x-www-form-urlencoded",
       },
       body: formData,
-      cache:'no-store'
+      cache: "no-store",
     }
   );
 
@@ -71,4 +75,32 @@ export async function KillUserSession({
       .then((result) => console.log(result))
       .catch((error) => console.error(error));
   } catch (error) {}
+}
+
+export function VerifyToken({
+  session,
+}: {
+  session: any;
+}): TypeValidateTokenMessage {
+  try {
+    const publicKey: any = process.env.KEYCLOAK_PUBLICKEY;
+    const pem = `-----BEGIN CERTIFICATE-----\n${publicKey
+      .match(/.{1,64}/g)
+      .join("\n")}\n-----END CERTIFICATE-----`;
+
+    const isValid = verify(session.access_token, pem, {
+      algorithms: ["RS256"],
+    });
+
+    return { message: "token is valid", result: true };
+  } catch (error: any) {
+    return {
+      message: error.message,
+      result: false,
+    };
+  }
+}
+export function DecodeToken({ access_token }: { access_token: any }) {
+  let decoded_jwt = decode(access_token);
+  return decoded_jwt;
 }

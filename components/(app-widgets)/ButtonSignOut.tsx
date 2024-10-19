@@ -15,7 +15,7 @@ function ButtonSignOut({
           KillUserSession({ session, client_token });
           signOut({ callbackUrl: "/login", redirect: true });
         }}
-        className="bg-red-900 p-3 m-4"
+        className="bg-red-900 p-2 m-1"
       >
         signout
       </button>

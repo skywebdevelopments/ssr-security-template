@@ -1,11 +1,12 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import jsonwebtoken from "jsonwebtoken";
+import { DecodeToken } from "@/app/util/client.keycloak";
 
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-      name: "Custom Backend",
+      name: "keycloak-client-provider",
       async authorize(credentials: any) {
         const formData = new URLSearchParams();
         formData.append("username", credentials.email);
@@ -29,14 +30,17 @@ export const authOptions: NextAuthOptions = {
             cache: "no-cache",
           }
         );
+
+        
         const isAuthienticated = await res.json();
 
         if (res.ok && isAuthienticated) {
           // If successful, return the user object
 
-          let decoded_jwt: any = jsonwebtoken.decode(
-            isAuthienticated.access_token
-          );
+          let decoded_jwt: any = DecodeToken({access_token:isAuthienticated.access_token});
+
+
+          
           isAuthienticated["email"] = decoded_jwt.email;
           isAuthienticated["name"] = decoded_jwt.name;
           isAuthienticated["sub"] = decoded_jwt.sub;
