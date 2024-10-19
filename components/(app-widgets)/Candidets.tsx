@@ -1,99 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
+import { getCandidates } from "@/app/data/candidates_list";
 import CandidateCard from "./CandidateCard";
 
 function Candidets() {
-  let CandidatesList = [
-    {
-      name: "مرشح رقم ١",
-      avatar:
-        "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80",
-      alt: "Avatar",
-    },
-    {
-      name: "مرشح رقم ٢",
-      avatar:
-        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80",
-      alt: "Avatar",
-    },
-    {
-      name: "مرشح رقم ٣",
-      avatar:
-        "https://images.unsplash.com/photo-1548142813-c348350df52b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80",
-      alt: "Avatar",
-    },
-    {
-      name: "مرشح رقم ٤",
-      avatar:
-        "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80",
-      alt: "Avatar",
-    },
-    {
-      name: "مرشح رقم ٥",
-      avatar:
-        "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80",
-      alt: "Avatar",
-    },
-    {
-      name: "مرشح رقم ٦",
-      avatar:
-        "https://images.unsplash.com/photo-1624224971170-2f84fed5eb5e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80",
-      alt: "Avatar",
-    },
-    {
-      name: "مرشح رقم ٧",
-      avatar:
-        "https://images.unsplash.com/photo-1579017331263-ef82f0bbc748?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80",
-      alt: "Avatar",
-    },
-    {
-      name: "مرشح رقم ٨",
-      avatar:
-        "https://images.unsplash.com/photo-1514222709107-a180c68d72b4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80",
-      alt: "Avatar",
-    },
-    {
-      name: "مرشح رقم ٩",
-      avatar:
-        "https://images.unsplash.com/photo-1602452920335-6a132309c7c8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80",
-      alt: "Avatar",
-    },
-    {
-      name: "مرشح رقم ١٠",
-      avatar:
-        "https://images.unsplash.com/photo-1515621061946-eff1c2a352bd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80",
-      alt: "Avatar",
-    },
-    {
-      name: "مرشح رقم ١١",
-      avatar:
-        "https://images.unsplash.com/photo-1514846226882-28b324ef7f28?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80",
-      alt: "Avatar",
-    },
-    {
-      name: "مرشح رقم ١٢",
-      avatar:
-        "https://images.unsplash.com/photo-1610216705422-caa3fcb6d158?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80",
-      alt: "Avatar",
-    },
-    {
-      name: "مرشح رقم ١٣",
-      avatar:
-        "https://images.unsplash.com/photo-1520409364224-63400afe26e5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80",
-      alt: "Avatar",
-    },
-    {
-      name: "مرشح رقم ١٤",
-      avatar:
-        "https://images.unsplash.com/photo-1558507652-2d9626c4e67a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80",
-      alt: "Avatar",
-    },
-    {
-      name: "مرشح رقم ١٥",
-      avatar:
-        "https://images.unsplash.com/photo-1521151716396-b2da27b1a19f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80",
-      alt: "Avatar",
-    },
-  ];
+  let candidatesList = getCandidates();
 
   return (
     <div className="h-fit">
@@ -118,7 +28,7 @@ function Candidets() {
                 dir="rtl"
                 className="grid  grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8 md:gap-12"
               >
-                {CandidatesList.map((rec, index) => {
+                {candidatesList.map((rec, index) => {
                   return <CandidateCard key={index} rec={rec} />;
                 })}
                 {/* End Col */}

@@ -1,18 +1,13 @@
-import Image from "next/image";
-import { useState } from "react";
 /* eslint-disable @next/next/no-img-element */
-type Candidate = {
-  name: string;
-  avatar: string;
-  alt: string;
-};
+import Image from "next/image";
+import Link from "next/link";
 
 function CandidateCard({ rec }: { rec: Candidate }) {
   return (
     <>
       <div className="text-center  hover:text-2xl font-extrabold cursor-pointer">
         <Image
-          className={`rounded-full border-2 hover:border-8 hover:border-green-400 border-spacing-56 border-green-900 bg-green-300`}
+          className={`rounded-full border-2  border-spacing-56 border-green-900`}
           src={rec.avatar}
           alt={`Avatar of ${rec.name}`}
           width={320}
@@ -22,7 +17,14 @@ function CandidateCard({ rec }: { rec: Candidate }) {
           <h3 className="font-medium text-gray-800 dark:text-neutral-200">
             {rec.name}
           </h3>
-          <p className="text-sm text-gray-600 dark:text-neutral-400"></p>
+          <div className="flex flex-row justify-center">
+            <Link
+              className="bg-green-800 text-white border-rounded px-2 py-1 rounded mt-3"
+              href={`/profile/${rec.uuid}`}
+            >
+              ترشيح
+            </Link>
+          </div>
         </div>
       </div>
     </>

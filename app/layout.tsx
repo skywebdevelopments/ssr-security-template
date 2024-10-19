@@ -35,17 +35,27 @@ export default async function RootLayout({
 
   !isValidToken.result && console.table(isValidToken);
   !isValidToken.result &&
-    (await KillUserSession({ session, client_token }).finally(() => {
-      redirect("/login");
-    }));
+    KillUserSession({ session, client_token })
+      .catch(() => {
+        redirect("/login");
+      })
+      .finally(() => {
+        redirect("/login");
+      });
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AppTitle session={session} client_token={client_token} />
+        {isValidToken.result ? (
+          <>
+            <AppTitle session={session} client_token={client_token} />
+            {children}
 
-        {children}
-        <Footer />
-        <Toaster expand={true} closeButton={true} />
+            <Footer />
+            <Toaster expand={true} closeButton={true} />
+          </>
+        ) : (
+          <>{children}</>
+        )}
       </body>
     </html>
   );
