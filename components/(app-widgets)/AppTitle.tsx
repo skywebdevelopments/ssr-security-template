@@ -31,7 +31,7 @@ function AppTitle({
         <div className="flex flex-col p-4 ">
           {" "}
           <h1 className=" text-2xl">المنصة الوطنية للأنتخابات</h1>
-          <h3 className="text-xl self-center">صوتك امانه</h3>
+          {/* <h3 className="text-xl self-center">صوتك امانه</h3> */}
         </div>
       </div>
     </div>

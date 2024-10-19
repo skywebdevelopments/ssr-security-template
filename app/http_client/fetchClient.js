@@ -16,7 +16,7 @@ export const fetchClient = async (url, options = {}) => {
 
   let result = await response.json();
   let result_status = await response.status;
-  console.log(`res status: ${result_status}`);
+
   
   if (result_status === 401) {
     redirect("/login");

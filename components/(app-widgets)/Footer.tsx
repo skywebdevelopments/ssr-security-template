@@ -2,7 +2,7 @@ function Footer() {
   return (
     <div>
       {/* ========== FOOTER ========== */}
-      <footer className="relative bottom-0 w-full overflow-hidden bg-neutral-900">
+      <footer className="sticky h-1/6 bottom-0 w-full overflow-hidden bg-neutral-900">
         <svg
           className="absolute -bottom-20 start-1/2 w-[1900px] transform -translate-x-1/2"
           width={2745}
