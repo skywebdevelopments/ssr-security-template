@@ -11,14 +11,12 @@ import { signOut } from "next-auth/react";
 async function SessionManagement({ children }: any) {
   const session = await RetrieveServerSession();
 
-  
   let isValidSession: boolean = await ValidateSession({ userid: session.sub });
 
   let isValidToken: boolean = await ValidateToken({ session });
-  console.log(isValidSession,isValidToken);
-  
+
   if (!isValidSession || !isValidToken) {
-    redirect("/login");
+    redirect("/session-ended");
   }
   return (
     <>

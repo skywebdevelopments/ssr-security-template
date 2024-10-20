@@ -2,11 +2,11 @@
 import { fetchClient } from "../http_client/fetchClient";
 import { INetworkMetaDataInterface } from "../interfaces/INetworkInterface";
 import { DashboardLayout } from "../../components/(app-widgets)/DashboardLayout";
-import { RetrieveSession } from "../util/client.keycloak";
-import NeedToLogin from "../(voting-system)/(user-creation-redirection)/creation-error/page";
+import { RetrieveServerSession } from "../util/client.keycloak";
+import NeedToLogin from "../(voting-system)/(user-creation-redirection)/session-ended/page";
 
 export default async function Dashboard() {
-  const session = await RetrieveSession();
+  const session = await RetrieveServerSession();
   if (!session) {
     return (
       <>
