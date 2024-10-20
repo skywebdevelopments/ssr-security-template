@@ -1,60 +1,69 @@
 /* eslint-disable react/jsx-no-undef */
-import { findCandidateByUUID } from "@/app/data/candidates_list";
+import { findCandidateByUUID } from "@/app/(voting-system)/data/candidates_list";
+
+import { redirect } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import SessionManagement from "@/components/(app-widgets)/SessionManagement";
 function page({ params }: { params: { id: string } }) {
   let candidateObject = findCandidateByUUID(params.id);
-
 
   return (
     <>
       <>
-        {/* Profile */}
-        <div
-          dir="rtl"
-          className="   flex flex-col m-auto w-1/2 mt-10 mb-10  justify-center"
-        >
-          <div className=" flex mt-4 flex-row justify-between ">
-            <div className="flex items-center  gap-x-3">
-              <div className="shrink-0">
-                <Image
-                  className={`rounded-full border-2  border-spacing-56 border-green-900`}
-                  src={candidateObject.avatar}
-                  alt={`Avatar of ${candidateObject.name}`}
-                  width={220}
-                  height={220}
-                />
-              </div>{" "}
-              <div className="grow">
-                <Link
-                  className="bg-green-800  w-1/4 text-center hover:bg-green-600 text-white border-rounded px-2 py-3 rounded mt-3"
-                  href={`/profile/${candidateObject.uuid}`}
-                >
-                  ترشيح {candidateObject.name}
-                </Link>
+        <SessionManagement>
+          {/* Profile */}
+          {candidateObject ? (
+            <div
+              dir="rtl"
+              className="   flex flex-col m-auto w-1/2 mt-10 mb-10  justify-center"
+            >
+              <div className=" flex mt-4 flex-row justify-between ">
+                <div className="flex items-center  gap-x-3">
+                  <div className="shrink-0">
+                    <Image
+                      className={`rounded-full border-2  border-spacing-56 border-green-900`}
+                      src={candidateObject?.avatar}
+                      alt={`Avatar of ${candidateObject?.name}`}
+                      width={220}
+                      height={220}
+                    />
+                  </div>{" "}
+                  <div className="grow">
+                    <Link
+                      className="bg-green-800  w-1/4 text-center hover:bg-green-600 text-white border-rounded px-2 py-3 rounded mt-3"
+                      href={`/profile/${candidateObject?.uuid}`}
+                    >
+                      ترشيح {candidateObject?.name}
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+              {/* End Profile */}
+              {/* About */}
+              <div className="mt-8">
+                <p className="text-sm text-gray-600 dark:text-neutral-400">
+                  لوريم إيبسوم(Lorem Ipsum) هو ببساطة نص شكلي (بمعنى أن الغاية
+                  هي الشكل وليس المحتوى) ويُستخدم في صناعات المطابع ودور النشر.
+                  كان لوريم إيبسوم ولايزال المعيار للنص الشكلي منذ القرن الخامس
+                  عشر عندما قامت مطبعة مجهولة برص مجموعة من الأحرف بشكل عشوائي
+                  أخذتها من نص، لتكوّن كتيّب بمثابة دليل أو مرجع شكلي لهذه
+                  الأحرف. خمسة قرون من الزمن لم تقضي على هذا النص، بل انه حتى
+                  صار مستخدماً وبشكله الأصلي في الطباعة والتنضيد الإلكتروني.
+                  انتشر بشكل كبير في ستينيّات هذا القرن مع إصدار رقائق ليتراسيت
+                  (Letraset) البلاستيكية تحوي مقاطع من هذا النص، وعاد لينتشر مرة
+                  أخرى مؤخراَ مع ظهور برامج النشر الإلكتروني مثل ألدوس بايج
+                  مايكر (Aldus PageMaker) والتي حوت أيضاً على نسخ من نص لوريم
+                  إيبسوم.
+                </p>
               </div>
             </div>
-          </div>
-
-          {/* End Profile */}
-          {/* About */}
-          <div className="mt-8">
-            <p className="text-sm text-gray-600 dark:text-neutral-400">
-              لوريم إيبسوم(Lorem Ipsum) هو ببساطة نص شكلي (بمعنى أن الغاية هي
-              الشكل وليس المحتوى) ويُستخدم في صناعات المطابع ودور النشر. كان
-              لوريم إيبسوم ولايزال المعيار للنص الشكلي منذ القرن الخامس عشر
-              عندما قامت مطبعة مجهولة برص مجموعة من الأحرف بشكل عشوائي أخذتها من
-              نص، لتكوّن كتيّب بمثابة دليل أو مرجع شكلي لهذه الأحرف. خمسة قرون
-              من الزمن لم تقضي على هذا النص، بل انه حتى صار مستخدماً وبشكله
-              الأصلي في الطباعة والتنضيد الإلكتروني. انتشر بشكل كبير في ستينيّات
-              هذا القرن مع إصدار رقائق "ليتراسيت" (Letraset) البلاستيكية تحوي
-              مقاطع من هذا النص، وعاد لينتشر مرة أخرى مؤخراَ مع ظهور برامج النشر
-              الإلكتروني مثل "ألدوس بايج مايكر" (Aldus PageMaker) والتي حوت
-              أيضاً على نسخ من نص لوريم إيبسوم.
-            </p>
-          </div>
-        </div>
-        {/* End About */}
+          ) : (
+            redirect("/home")
+          )}
+          {/* End About */}
+        </SessionManagement>
       </>
     </>
   );

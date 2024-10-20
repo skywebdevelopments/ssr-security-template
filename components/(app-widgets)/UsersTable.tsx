@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { IUserCAProfile } from "../interfaces/IUserCAProfile";
+import { IUserCAProfile } from "../../app/interfaces/IUserCAProfile";
 import { useRouter } from "next/navigation";
 
 

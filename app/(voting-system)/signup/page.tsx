@@ -2,7 +2,7 @@
 "use client";
 
 import { toast } from "sonner";
-import { ActionRegisterUser } from "../actions/(registration)/ActionRegisterUser";
+import { ActionRegisterUser } from "@/app/actions/(registration)/ActionRegisterUser";
 import { Button } from "@/components/ui/button";
 import {
   Card,

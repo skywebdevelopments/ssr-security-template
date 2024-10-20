@@ -1,7 +1,7 @@
-import { signOut } from "next-auth/react";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth/next";
 import { decode, verify } from "jsonwebtoken";
+
 type TypeValidateTokenMessage = {
   result: boolean;
   message: string;
@@ -38,12 +38,12 @@ export async function RequireClientAccess() {
   return jwt.access_token;
 }
 
-export async function RetrieveSession() {
+export async function RetrieveServerSession() {
   const session: any = await getServerSession(authOptions);
   return session;
 }
 
-export async function KillUserSession({
+async function KillUserSession({
   session,
   client_token,
 }: {
@@ -77,11 +77,11 @@ export async function KillUserSession({
   } catch (error) {}
 }
 
-export function VerifyToken({
+export async function ValidateToken({
   session,
 }: {
   session: any;
-}): TypeValidateTokenMessage {
+}): Promise<boolean> {
   try {
     const publicKey: any = process.env.KEYCLOAK_PUBLICKEY;
     const pem = `-----BEGIN CERTIFICATE-----\n${publicKey
@@ -92,15 +92,52 @@ export function VerifyToken({
       algorithms: ["RS256"],
     });
 
-    return { message: "token is valid", result: true };
+    return true;
   } catch (error: any) {
-    return {
-      message: error.message,
-      result: false,
-    };
+    const client_token = await RequireClientAccess();
+    KillUserSession({ session, client_token });
+    return false;
   }
 }
+
 export function DecodeToken({ access_token }: { access_token: any }) {
   let decoded_jwt = decode(access_token);
   return decoded_jwt;
+}
+
+export async function ValidateSession({
+  userid,
+}: {
+  userid: string;
+}): Promise<any> {
+  let accessToken = await RequireClientAccess();
+
+  const myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${accessToken}`);
+
+  const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  return fetch(
+    `http://127.0.0.1:8080/admin/realms/myrealm/users/${userid}/sessions`,
+    {
+      method: requestOptions.method,
+      headers: requestOptions.headers,
+      cache: "no-cache",
+    }
+  )
+    .then((response) => response.json())
+    .then(async (result) => {
+      if (result.length === 0) {
+        return false;
+      }
+      return true;
+    })
+
+    .catch(async (error) => {
+      return false;
+    });
 }

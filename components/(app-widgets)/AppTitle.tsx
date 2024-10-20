@@ -1,8 +1,5 @@
 "use client";
-import {
-  KillUserSession,
-  RequireClientAccess,
-} from "@/app/util/client.keycloak";
+
 import { signOut } from "next-auth/react";
 import ButtonSignOut from "./ButtonSignOut";
 type UserSession = {
@@ -10,13 +7,7 @@ type UserSession = {
   sid: string;
   email: string;
 };
-function AppTitle({
-  session,
-  client_token,
-}: {
-  session: UserSession;
-  client_token: string;
-}) {
+function AppTitle({ session }: { session: UserSession }) {
   return (
     <div className="sticky top-0 bg-black text-white">
       {/* <ButtonSignOut session={session} client_token={client_token} /> */}
