@@ -29,9 +29,9 @@ export default function LoginForm() {
     }).catch((error: any) => {
       console.log(`error login ${error}`);
     });
-    
+
     if (result.ok) {
-      router.push(`/home`); // Redirect to dashboard on success
+      router.push(`/candidates`); // Redirect to dashboard on success
     } else {
       setError("Invalid credentials, please try again");
     }

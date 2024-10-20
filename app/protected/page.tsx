@@ -1,9 +1,9 @@
 // app/dashboard/page.js
 import { fetchClient } from "../http_client/fetchClient";
 import { INetworkMetaDataInterface } from "../interfaces/INetworkInterface";
-import { DashboardLayout } from "../components/DashboardLayout";
+import { DashboardLayout } from "../../components/(app-widgets)/DashboardLayout";
 import { RetrieveSession } from "../util/client.keycloak";
-import NeedToLogin from "../(user-creation-redirection)/creation-error/page";
+import NeedToLogin from "../(voting-system)/(user-creation-redirection)/creation-error/page";
 
 export default async function Dashboard() {
   const session = await RetrieveSession();

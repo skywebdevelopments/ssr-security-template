@@ -3,12 +3,7 @@ import Footer from "@/components/(app-widgets)/Footer";
 import AppTitle from "@/components/(app-widgets)/AppTitle";
 import { signOut } from "next-auth/react";
 import { redirect } from "next/navigation";
-import {
-  KillUserSession,
-  RequireClientAccess,
-  RetrieveSession,
-  VerifyToken,
-} from "@/app/util/client.keycloak";
+
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter, Bebas_Neue, Cairo } from "next/font/google";
@@ -29,18 +24,13 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await RetrieveSession();
-  const client_token = await RequireClientAccess();
-  const isValidToken = VerifyToken({ session });
-
-  !isValidToken.result && console.table(isValidToken);
-  !isValidToken.result &&
-    (await KillUserSession({ session, client_token })) &&
-    redirect("/login");
-
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {children}
+
+        <Toaster expand={true} closeButton={true} />
+      </body>
     </html>
   );
 }

@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { getCandidates } from "@/app/data/candidates_list";
+import { getCandidates } from "@/app/(voting-system)/data/candidates_list";
 import CandidateCard from "./CandidateCard";
 
 function Candidets() {
