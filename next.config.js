@@ -22,10 +22,47 @@ const nextConfig = {
             key: "Strict-Transport-Security",
             value: "max-age=31536000; includeSubDomains; preload",
           },
-          // {
-          //   key: 'Content-Security-Policy',
-          //   value: `script-src 'self' 'nonce-${generateNonce()}';` // Dynamically generate nonce
-          // },
+          {
+            key: "X-XSS-Protection",
+            value: "1; mode=block",
+          },
+          {
+            key: "Content-Security-Policy",
+            value: `default-src 'self'; script-src 'self' 'nonce-${generateNonce()}' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'none';`,
+          },
+          {
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin",
+          },
+          {
+            key: "Permissions-Policy",
+            value: "interest-cohort=()",
+          },
+          {
+            key: "X-DNS-Prefetch-Control",
+            value: "on",
+          },
+          {
+            key: "X-Powered-By",
+            value: "Next.js",
+          },
+          {
+            key: "Server",
+            value: "Next.js",
+          },
+          {
+            key: "X-Download-Options",
+            value: "noopen",
+          },
+          {
+            key: "X-Permitted-Cross-Domain-Policies",
+            value: "none",
+          },
+          {
+            key: "X-WebKit-CSP",
+            value:
+              "default-src 'self'; script-src 'self' 'nonce-${generateNonce()}' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'none';",
+          },
         ],
       },
     ];
