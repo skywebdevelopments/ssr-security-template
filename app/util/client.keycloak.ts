@@ -43,7 +43,7 @@ export async function RetrieveServerSession() {
   return session;
 }
 
-async function KillUserSession({
+export async function KillUserSession({
   session,
   client_token,
 }: {
