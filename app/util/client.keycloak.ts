@@ -1,6 +1,8 @@
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth/next";
 import { decode, verify } from "jsonwebtoken";
+import { KeycloakToken } from "../types/KeycloakToken";
+import { redirect } from "next/navigation";
 
 type TypeValidateTokenMessage = {
   result: boolean;
@@ -100,8 +102,12 @@ export async function ValidateToken({
   }
 }
 
-export function DecodeToken({ access_token }: { access_token: any }) {
-  let decoded_jwt = decode(access_token);
+export function DecodeToken({
+  access_token,
+}: {
+  access_token: any;
+}): KeycloakToken {
+  let decoded_jwt: KeycloakToken = decode(access_token) as KeycloakToken;
   return decoded_jwt;
 }
 
@@ -140,4 +146,16 @@ export async function ValidateSession({
     .catch(async (error) => {
       return false;
     });
+}
+
+export async function isSessionAlive() {
+  const session = await RetrieveServerSession();
+
+  let isValidSession: boolean = await ValidateSession({ userid: session.sub });
+
+  let isValidToken: boolean = await ValidateToken({ session });
+
+  if (!isValidSession || !isValidToken) {
+    redirect("/session-ended");
+  }
 }

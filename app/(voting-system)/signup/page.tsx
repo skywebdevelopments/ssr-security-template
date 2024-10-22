@@ -76,7 +76,7 @@ function Page() {
                   {...register("firstName", {
                     required: "First name is required.",
                     minLength: {
-                      value: 5,
+                      value: 3,
                       message: "First name must be at least 5 characters long.",
                     },
                   })}
@@ -94,7 +94,7 @@ function Page() {
                   {...register("lastName", {
                     required: "Last name is required.",
                     minLength: {
-                      value: 5,
+                      value: 3,
                       message: "Last name must be at least 5 characters long.",
                     },
                   })}

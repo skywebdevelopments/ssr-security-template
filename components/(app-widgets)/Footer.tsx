@@ -92,7 +92,7 @@ function Footer() {
             stroke="currentColor"
           />
         </svg>
-        <div className="relative z-10">
+        <div className="relative z-10"> 
           <div className="w-full max-w-5xl px-4 xl:px-0 py-10 lg:pt-16 mx-auto">
             <div className="inline-flex items-center">
               {/* Logo */}

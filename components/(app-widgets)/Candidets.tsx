@@ -2,7 +2,7 @@
 import { getCandidates } from "@/app/(voting-system)/data/candidates_list";
 import CandidateCard from "./CandidateCard";
 
-function Candidets() {
+async function Candidets() {
   let candidatesList = getCandidates();
 
   return (

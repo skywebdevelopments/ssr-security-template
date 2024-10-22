@@ -3,4 +3,6 @@ type Candidate = {
   avatar: string;
   alt: string;
   uuid: string;
+  nid: string;
+
 };

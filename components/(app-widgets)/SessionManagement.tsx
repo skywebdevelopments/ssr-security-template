@@ -2,6 +2,7 @@ import {
   RetrieveServerSession,
   ValidateToken,
   ValidateSession,
+  isSessionAlive,
 } from "@/app/util/client.keycloak";
 import AppTitle from "@/components/(app-widgets)/AppTitle";
 import { redirect } from "next/navigation";
@@ -10,14 +11,7 @@ import { signOut } from "next-auth/react";
 
 async function SessionManagement({ children }: any) {
   const session = await RetrieveServerSession();
-
-  let isValidSession: boolean = await ValidateSession({ userid: session.sub });
-
-  let isValidToken: boolean = await ValidateToken({ session });
-
-  if (!isValidSession || !isValidToken) {
-    redirect("/session-ended");
-  }
+  await isSessionAlive();
   return (
     <>
       <AppTitle session={session} />

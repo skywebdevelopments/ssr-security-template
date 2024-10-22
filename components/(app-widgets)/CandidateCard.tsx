@@ -2,7 +2,9 @@
 import Image from "next/image";
 import Link from "next/link";
 
-function CandidateCard({ rec }: { rec: Candidate }) {
+async function CandidateCard({ rec }: { rec: Candidate }) {
+
+
   return (
     <>
       <div className="text-center  hover:text-2xl font-extrabold cursor-pointer">
@@ -15,7 +17,7 @@ function CandidateCard({ rec }: { rec: Candidate }) {
         />
         <div className="mt-2 sm:mt-4">
           <h3 className="font-medium text-gray-800 dark:text-neutral-200">
-            {rec?.name}
+            {rec?.name} {rec.nid}
           </h3>
           <div className="flex flex-row justify-center">
             <Link

@@ -31,16 +31,16 @@ export const authOptions: NextAuthOptions = {
           }
         );
 
-        
         const isAuthienticated = await res.json();
 
         if (res.ok && isAuthienticated) {
           // If successful, return the user object
 
-          let decoded_jwt: any = DecodeToken({access_token:isAuthienticated.access_token});
+          let decoded_jwt: any = DecodeToken({
+            access_token: isAuthienticated.access_token,
+          }); 
 
 
-          
           isAuthienticated["email"] = decoded_jwt.email;
           isAuthienticated["name"] = decoded_jwt.name;
           isAuthienticated["sub"] = decoded_jwt.sub;
@@ -68,6 +68,7 @@ export const authOptions: NextAuthOptions = {
       // console.log(token.name);
 
       if (user) {
+
         token.email = user.email;
         token.name = user.name;
         token.sub = user.sub;
@@ -85,6 +86,7 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }: any) {
+
       session.user.id = token.id;
       session.user.email = token.email;
       session.access_token = token.access_token;
@@ -98,6 +100,8 @@ export const authOptions: NextAuthOptions = {
       session.exp = token.exp;
       session.email_verified = token.email_verified;
       session.roles = token.roles;
+
+      
       return session;
     },
   },

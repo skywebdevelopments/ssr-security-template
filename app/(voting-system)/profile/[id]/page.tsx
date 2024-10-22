@@ -1,13 +1,15 @@
-/* eslint-disable react/jsx-no-undef */
 import { findCandidateByUUID } from "@/app/(voting-system)/data/candidates_list";
-
 import { redirect } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
 import SessionManagement from "@/components/(app-widgets)/SessionManagement";
+import React from "react";
+import VoteButton from "@/components/(app-widgets)/Votebutton";
 function page({ params }: { params: { id: string } }) {
   let candidateObject = findCandidateByUUID(params.id);
 
+  function test() {
+    console.log(123);
+  }
   return (
     <>
       <>
@@ -30,12 +32,7 @@ function page({ params }: { params: { id: string } }) {
                     />
                   </div>{" "}
                   <div className="grow">
-                    <Link
-                      className="bg-green-800  w-1/4 text-center hover:bg-green-600 text-white border-rounded px-2 py-3 rounded mt-3"
-                      href={`/profile/${candidateObject?.uuid}`}
-                    >
-                      ترشيح {candidateObject?.name}
-                    </Link>
+                    <VoteButton candidateObject={candidateObject} />
                   </div>
                 </div>
               </div>

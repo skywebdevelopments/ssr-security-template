@@ -26,10 +26,7 @@ const nextConfig = {
             key: "X-XSS-Protection",
             value: "1; mode=block",
           },
-          {
-            key: "Content-Security-Policy",
-            value: `default-src 'self'; script-src 'self' 'nonce-${generateNonce()}' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'none';`,
-          },
+
           {
             key: "Referrer-Policy",
             value: "strict-origin-when-cross-origin",
@@ -59,9 +56,19 @@ const nextConfig = {
             value: "none",
           },
           {
-            key: "X-WebKit-CSP",
-            value:
-              "default-src 'self'; script-src 'self' 'nonce-${generateNonce()}' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'none';",
+            key: "content-security-policy",
+            value: `
+    default-src 'self';
+    script-src 'self' 'unsafe-eval' 'unsafe-inline';
+    style-src 'self' 'unsafe-inline';
+    img-src 'self' blob: data:;
+    font-src 'self';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+    frame-ancestors 'none';
+    upgrade-insecure-requests;
+`.replace(/\n/g, ""),
           },
         ],
       },
@@ -71,9 +78,5 @@ const nextConfig = {
     domains: ["images.unsplash.com"],
   },
 };
-
-function generateNonce() {
-  return crypto.randomBytes(16).toString("base64"); // Generates a secure random nonce
-}
 
 module.exports = nextConfig;

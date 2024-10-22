@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter, Bebas_Neue, Cairo } from "next/font/google";
+import SessionManagement from "@/components/(app-widgets)/SessionManagement";
 
 const inter = Cairo({
   weight: "400",
@@ -27,9 +28,11 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        {children}
 
-        <Toaster expand={true} closeButton={true} />
+          {children}
+
+          <Toaster expand={true} closeButton={true} />
+
       </body>
     </html>
   );
