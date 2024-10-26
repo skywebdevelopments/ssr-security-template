@@ -159,3 +159,25 @@ export async function isSessionAlive() {
     redirect("/session-ended");
   }
 }
+
+export async function getUserInfo() {
+  return new Promise(async (resolve, reject) => {
+    let session = await RetrieveServerSession();
+    let accessToken = session.access_token;
+    fetch(
+      `http://127.0.0.1:8080/realms/myrealm/protocol/openid-connect/userinfo`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        cache: "no-store",
+      }
+    )
+      .then((response) => {
+        resolve(response.json());
+      })
+
+      .catch((error) => console.error(error));
+  });
+}

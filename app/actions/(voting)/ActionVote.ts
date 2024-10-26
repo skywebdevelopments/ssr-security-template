@@ -1,7 +1,11 @@
 "use server";
 
 import { KeycloakToken } from "@/app/types/KeycloakToken";
-import { RetrieveServerSession, DecodeToken } from "@/app/util/client.keycloak";
+import {
+  RetrieveServerSession,
+  DecodeToken,
+  getUserInfo,
+} from "@/app/util/client.keycloak";
 import { isSessionAlive } from "@/app/util/client.keycloak";
 import { redirect } from "next/navigation";
 export async function SubmitVote({
@@ -9,23 +13,24 @@ export async function SubmitVote({
 }: {
   candidateObject: any;
 }) {
-  let serverSession = await RetrieveServerSession();
-  await isSessionAlive();
-  let decodedJWT: KeycloakToken = DecodeToken({
-    access_token: serverSession.access_token,
+  return new Promise(async (resolve, reject) => {
+    await isSessionAlive();
+    let response: any = await getUserInfo();
+    let serverSession = await RetrieveServerSession();
+    let nid = response?.nid;
+    await postVote(candidateObject.uuid, nid, serverSession.access_token)
+      .then((response) => resolve(response))
+      .catch((error) => {
+        reject(error);
+      });
   });
-  let nid = decodedJWT?.nid;
-
-  console.log(`${nid} has selected ${candidateObject.uuid}`);
-
-  return await postVote(candidateObject.uuid, nid, serverSession.access_token);
 }
 
-function postVote(candidateUUID: any, nid: string, token: string) {
+async function postVote(candidateUUID: any, nid: string, token: string) {
+  await isSessionAlive();
   return new Promise((resolve, reject) => {
     let requestBody = JSON.stringify({
       uuid: candidateUUID,
-
       nid: nid,
     });
 
@@ -39,8 +44,11 @@ function postVote(candidateUUID: any, nid: string, token: string) {
       body: requestBody,
     })
       .then((res) => res)
-      .then((data) => {
-        resolve(data.status);
+      .then(async (data) => {
+        resolve(await data.json());
+      })
+      .catch((err) => {
+        reject(err);
       });
   });
 }

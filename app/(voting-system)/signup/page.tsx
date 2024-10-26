@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 type FormData = {
   firstName: string;
@@ -37,13 +37,11 @@ function Page() {
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
-
+  const router = useRouter();
   // Handle successful form submission
-  const onSubmit: SubmitHandler<FormData> = (data: any) => {
-    ActionRegisterUser(data).then((d) => {
-      d === 409 &&
-        setCreationResponse({ message: "user already exist", status: 409 });
-    });
+  const onSubmit: SubmitHandler<FormData> = async (data: any) => {
+    const result = await ActionRegisterUser(data);
+    result === 201 && router.push("/login");
   };
 
   // Handle form submission errors
