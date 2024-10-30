@@ -15,8 +15,10 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import NotesList from "@/components/(app-widgets)/NotesList.rt";
+import { isSessionAlive } from "../util/client.keycloak";
 
 export default async function Page() {
+  await isSessionAlive();
   return (
     <SidebarProvider>
       <AppSidebar />

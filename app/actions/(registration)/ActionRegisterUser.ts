@@ -45,7 +45,7 @@ async function createUserIdentity(formData: any, myHeaders: any) {
       redirect: "follow",
     };
 
-    fetch("http://127.0.0.1:8080/admin/realms/myrealm/users", {
+    fetch("http://127.0.0.1:8080/admin/realms/evm/users", {
       method: requestOptions.method,
       headers: requestOptions.headers,
       body: requestOptions.body,

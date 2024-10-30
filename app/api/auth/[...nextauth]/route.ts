@@ -20,7 +20,7 @@ export const authOptions: NextAuthOptions = {
         formData.append("scope", process.env.SCOPE as string);
 
         const res = await fetch(
-          "http://127.0.0.1:8080/realms/myrealm/protocol/openid-connect/token",
+          "http://127.0.0.1:8080/realms/evm/protocol/openid-connect/token",
           {
             method: "POST",
             headers: {

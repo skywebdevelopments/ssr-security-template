@@ -5,76 +5,77 @@ const nextConfig = {
   experimental: {
     serverActions: true,
   },
-//   async headers() {
-//     return [
-//       {
-//         // Apply these headers to all routes
-//         source: "/(.*)",
-//         headers: [
-//           {
-//             key: "X-Content-Type-Options",
-//             value: "nosniff",
-//           },
-//           {
-//             key: "X-Frame-Options",
-//             value: "DENY",
-//           },
-//           {
-//             key: "Strict-Transport-Security",
-//             value: "max-age=31536000; includeSubDomains; preload",
-//           },
-//           {
-//             key: "X-XSS-Protection",
-//             value: "1; mode=block",
-//           },
+  async headers() {
+    return [
+      {
+        // Apply these headers to all routes
+        source: "/(.*)",
+        headers: [
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff",
+          },
+          {
+            key: "X-Frame-Options",
+            value: "DENY",
+          },
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=31536000; includeSubDomains; preload",
+          },
+          {
+            key: "X-XSS-Protection",
+            value: "1; mode=block",
+          },
 
-//           {
-//             key: "Referrer-Policy",
-//             value: "strict-origin-when-cross-origin",
-//           },
-//           {
-//             key: "Permissions-Policy",
-//             value: "interest-cohort=()",
-//           },
-//           {
-//             key: "X-DNS-Prefetch-Control",
-//             value: "on",
-//           },
-//           {
-//             key: "X-Powered-By",
-//             value: "Next.js",
-//           },
-//           {
-//             key: "Server",
-//             value: "Next.js",
-//           },
-//           {
-//             key: "X-Download-Options",
-//             value: "noopen",
-//           },
-//           {
-//             key: "X-Permitted-Cross-Domain-Policies",
-//             value: "none",
-//           },
-//           {
-//             key: "content-security-policy",
-//             value: `
-//     default-src 'self';
-//     script-src 'self' 'unsafe-eval' 'unsafe-inline';
-//     style-src 'self' 'unsafe-inline';
-//     img-src 'self' blob: data:;
-//     font-src 'self';
-//     object-src 'none';
-//     base-uri 'self';
-//     form-action 'self';
-//     frame-ancestors 'none';
-//     upgrade-insecure-requests;
-// `.replace(/\n/g, ""),
-//           },
-//         ],
-//       },
-//     ];
-//   },
+          {
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin",
+          },
+          {
+            key: "Permissions-Policy",
+            value: "interest-cohort=()",
+          },
+          {
+            key: "X-DNS-Prefetch-Control",
+            value: "on",
+          },
+          {
+            key: "X-Powered-By",
+            value: "Next.js",
+          },
+          {
+            key: "Server",
+            value: "Next.js",
+          },
+          {
+            key: "X-Download-Options",
+            value: "noopen",
+          },
+          {
+            key: "X-Permitted-Cross-Domain-Policies",
+            value: "none",
+          },
+          {
+            key: "content-security-policy",
+            value: `
+    default-src 'self';
+    script-src 'self' 'unsafe-eval' 'unsafe-inline';
+    style-src 'self' 'unsafe-inline';
+    img-src 'self' blob: data:;
+    connect-src 'self' ${process.env.NEXT_PUBLIC_SUPABASE_URL} ${process.env.NEXT_PUBLIC_SUPABASE_REALTIME_URL};  
+    font-src 'self';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+    frame-ancestors 'none';
+    upgrade-insecure-requests;
+`.replace(/\n/g, ""),
+          },
+        ],
+      },
+    ];
+  },
   images: {
     domains: ["images.unsplash.com"],
   },

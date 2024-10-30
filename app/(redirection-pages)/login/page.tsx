@@ -31,7 +31,7 @@ export default function LoginForm() {
     });
 
     if (result.ok) {
-      router.push(`/candidates`); // Redirect to dashboard on success
+      router.push(`/dashboard`); // Redirect to dashboard on success
     } else {
       setError("Invalid credentials, please try again");
     }

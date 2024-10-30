@@ -19,7 +19,7 @@ export async function RequireClientAccess() {
   formData.append("scope", "openid");
 
   const res = await fetch(
-    `http://127.0.0.1:8080/realms/myrealm/protocol/openid-connect/token`,
+    `http://127.0.0.1:8080/realms/evm/protocol/openid-connect/token`,
     {
       method: "POST",
       headers: {
@@ -63,7 +63,7 @@ export async function KillUserSession({
     };
 
     fetch(
-      `http://127.0.0.1:8080/admin/realms/myrealm/users/${session.sub}/logout`,
+      `http://127.0.0.1:8080/admin/realms/evm/users/${session.sub}/logout`,
       {
         method: requestOptions.method,
         headers: requestOptions.headers,
@@ -128,7 +128,7 @@ export async function ValidateSession({
   };
 
   return fetch(
-    `http://127.0.0.1:8080/admin/realms/myrealm/users/${userid}/sessions`,
+    `http://127.0.0.1:8080/admin/realms/evm/users/${userid}/sessions`,
     {
       method: requestOptions.method,
       headers: requestOptions.headers,
@@ -150,10 +150,12 @@ export async function ValidateSession({
 
 export async function isSessionAlive() {
   const session = await RetrieveServerSession();
+  console.log(session.sub);
 
   let isValidSession: boolean = await ValidateSession({ userid: session.sub });
 
   let isValidToken: boolean = await ValidateToken({ session });
+  console.log(isValidToken, isValidSession);
 
   if (!isValidSession || !isValidToken) {
     redirect("/session-ended");
@@ -164,16 +166,13 @@ export async function getUserInfo() {
   return new Promise(async (resolve, reject) => {
     let session = await RetrieveServerSession();
     let accessToken = session.access_token;
-    fetch(
-      `http://127.0.0.1:8080/realms/myrealm/protocol/openid-connect/userinfo`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        cache: "no-store",
-      }
-    )
+    fetch(`http://127.0.0.1:8080/realms/evm/protocol/openid-connect/userinfo`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      cache: "no-store",
+    })
       .then((response) => {
         resolve(response.json());
       })
