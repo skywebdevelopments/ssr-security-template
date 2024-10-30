@@ -38,8 +38,7 @@ export const authOptions: NextAuthOptions = {
 
           let decoded_jwt: any = DecodeToken({
             access_token: isAuthienticated.access_token,
-          }); 
-
+          });
 
           isAuthienticated["email"] = decoded_jwt.email;
           isAuthienticated["name"] = decoded_jwt.name;
@@ -68,7 +67,6 @@ export const authOptions: NextAuthOptions = {
       // console.log(token.name);
 
       if (user) {
-
         token.email = user.email;
         token.name = user.name;
         token.sub = user.sub;
@@ -86,7 +84,6 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }: any) {
-
       session.user.id = token.id;
       session.user.email = token.email;
       session.access_token = token.access_token;
@@ -101,7 +98,6 @@ export const authOptions: NextAuthOptions = {
       session.email_verified = token.email_verified;
       session.roles = token.roles;
 
-      
       return session;
     },
   },

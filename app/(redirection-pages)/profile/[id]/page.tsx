@@ -1,4 +1,4 @@
-import { findCandidateByUUID } from "@/app/(voting-system)/data/candidates_list";
+import { findCandidateByUUID } from "@/app/(redirection-pages)/data/candidates_list";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import SessionManagement from "@/components/(app-widgets)/SessionManagement";

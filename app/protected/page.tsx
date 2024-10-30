@@ -3,7 +3,7 @@ import { fetchClient } from "../http_client/fetchClient";
 import { INetworkMetaDataInterface } from "../interfaces/INetworkInterface";
 import { DashboardLayout } from "../../components/(app-widgets)/DashboardLayout";
 import { RetrieveServerSession } from "../util/client.keycloak";
-import NeedToLogin from "../(voting-system)/(user-creation-redirection)/session-ended/page";
+import NeedToLogin from "../(redirection-pages)/(user-creation-redirection)/session-ended/page";
 
 export default async function Dashboard() {
   const session = await RetrieveServerSession();
