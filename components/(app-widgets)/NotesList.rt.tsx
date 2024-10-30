@@ -7,23 +7,23 @@ export default function NotesList() {
   const [NotesObject, setNotesObject] = useState<any>();
   const [RevalidateData, setRevalidateData] = useState<boolean>(false);
 
-  useEffect(() => {
+  const fetchNotes = () => {
     supabase
       .from("notes")
       .select()
       .then((data: any) => {
-        console.log(data);
-
         setNotesObject(data.data);
       });
-  }, [RevalidateData]);
+  };
+  useEffect(() => {fetchNotes()}, [RevalidateData]);
 
-  const channels = supabase
+  supabase
     .channel("custom-all-channel")
     .on(
       "postgres_changes",
       { event: "*", schema: "public", table: "notes" },
       (payload) => {
+        fetchNotes();
         setRevalidateData(true);
       }
     )
