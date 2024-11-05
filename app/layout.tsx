@@ -1,13 +1,8 @@
 import { Toaster } from "@/components/ui/sonner";
-import Footer from "@/components/(app-widgets)/Footer";
-import AppTitle from "@/components/(app-widgets)/AppTitle";
-import { signOut } from "next-auth/react";
-import { redirect } from "next/navigation";
 
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter, Bebas_Neue, Cairo } from "next/font/google";
-import SessionManagement from "@/components/(app-widgets)/SessionManagement";
 
 const inter = Cairo({
   weight: "400",
@@ -28,11 +23,9 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        {children}
 
-          {children}
-
-          <Toaster expand={true} closeButton={true} />
-
+        <Toaster expand={true} closeButton={true} />
       </body>
     </html>
   );

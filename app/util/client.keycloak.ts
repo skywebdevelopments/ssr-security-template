@@ -53,12 +53,12 @@ export async function KillUserSession({
   client_token: any;
 }) {
   try {
-    const myHeaders = new Headers();
-    myHeaders.append("Authorization", `Bearer ${client_token}`);
+    const requestHeaders = new Headers();
+    requestHeaders.append("Authorization", `Bearer ${client_token}`);
 
     const requestOptions = {
       method: "POST",
-      headers: myHeaders,
+      headers: requestHeaders,
       redirect: "follow",
     };
 
@@ -118,12 +118,12 @@ export async function ValidateSession({
 }): Promise<any> {
   let accessToken = await RequireClientAccess();
 
-  const myHeaders = new Headers();
-  myHeaders.append("Authorization", `Bearer ${accessToken}`);
+  const requestHeaders = new Headers();
+  requestHeaders.append("Authorization", `Bearer ${accessToken}`);
 
   const requestOptions = {
     method: "GET",
-    headers: myHeaders,
+    headers: requestHeaders,
     redirect: "follow",
   };
 
@@ -150,9 +150,8 @@ export async function ValidateSession({
 
 export async function isSessionAlive() {
   const session = await RetrieveServerSession();
-  console.log(session.sub);
 
-  let isValidSession: boolean = await ValidateSession({ userid: session.sub });
+  let isValidSession: boolean = await ValidateSession({ userid: session?.sub });
 
   let isValidToken: boolean = await ValidateToken({ session });
   console.log(isValidToken, isValidSession);
@@ -179,4 +178,60 @@ export async function getUserInfo() {
 
       .catch((error) => console.error(error));
   });
+}
+
+export async function createIdentity() {
+  const client_access_token = await RequireClientAccess();
+  console.log("test123");
+
+  console.log(client_access_token);
+
+  const requestHeaders = new Headers();
+  requestHeaders.append("Content-Type", "application/json");
+  requestHeaders.append("Authorization", `Bearer ${client_access_token}`);
+
+  // request body
+  const raw = JSON.stringify({
+    username: "Strange1",
+    enabled: true,
+    totp: false,
+    emailVerified: true,
+    firstName: "Stephen1",
+    lastName: "Strange1",
+    email: "drstranger1@marvel.com",
+    disableableCredentialTypes: [],
+    requiredActions: [],
+    notBefore: 0,
+    access: {
+      manageGroupMembership: true,
+      view: true,
+      mapRoles: true,
+      impersonate: true,
+      manage: true,
+    },
+    attributes: {
+      national_id: "29102192100697",
+    },
+    realmRoles: ["mb-user"],
+  });
+
+  const requestOptions = {
+    method: "POST",
+    headers: requestHeaders,
+    body: raw,
+    redirect: "follow",
+  };
+
+  await fetch(`http://127.0.0.1:8080/admin/realms/evm/users`, {
+    body: requestOptions.body,
+    method: requestOptions.method,
+
+    headers: {
+      Authorization: `Bearer ${client_access_token}`,
+    },
+    cache: "no-store",
+  })
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
 }

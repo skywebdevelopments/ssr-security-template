@@ -4,10 +4,9 @@ import {
   ValidateSession,
   isSessionAlive,
 } from "@/app/util/client.keycloak";
-import AppTitle from "@/components/(app-widgets)/AppTitle";
-import { redirect } from "next/navigation";
-import Footer from "@/components/(app-widgets)/Footer";
-import { signOut } from "next-auth/react";
+import AppTitle from "@/components/app-widgets/AppTitle";
+import Footer from "@/components/app-widgets/Footer";
+
 
 async function SessionManagement({ children }: any) {
   const session = await RetrieveServerSession();

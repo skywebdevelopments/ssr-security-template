@@ -54,7 +54,6 @@ export default function NotesList() {
       {NotesObject?.map((n: any, index: number) => {
         return (
           <>
-    
             <h1 key={n.id + index}>{n.title} </h1>
             <h3 key={n.id + index}> {n.description}</h3>
             <h3 key={n.id + index}> {new Date(n.start_at).toLocaleString()}</h3>
@@ -62,11 +61,15 @@ export default function NotesList() {
               Invitees ({n.tickets.length}):
             </p>
             <ol className="ml-4">
-              {n.tickets.length === 0 && <p className="text-xs italic text-slate-500">empty list</p>}
+              {n.tickets.length === 0 && (
+                <p className="text-xs italic text-slate-500">empty list</p>
+              )}
               {n.tickets.map((t: any) => {
                 return (
                   <li
-                    className={`${t.valid ? "text-green-800" : "text-red-800"} my-1`}
+                    className={`${
+                      t.valid ? "text-green-800" : "text-red-800"
+                    } my-1`}
                     key={t.id}
                   >
                     <div className="flex flex-row justify-between">
@@ -84,23 +87,23 @@ export default function NotesList() {
                 );
               })}
             </ol>
-          <div className="flex flex-row mt-7 justify-between">
-          <input
-              onChange={(e) => {
-                setUserEmail(e.target.value);
-              }}
-              className="bg-slate-300 px-3 border "
-              type="text"
-              name=""
-              id=""
-            />
-            <button
-              onClick={addUser}
-              className="px-3 ml-3 mr-3 bg-green-700 rounded text-white"
-            >
-              add user
-            </button>
-          </div>
+            <div className="flex flex-row mt-7 justify-between">
+              <input
+                onChange={(e) => {
+                  setUserEmail(e.target.value);
+                }}
+                className="bg-slate-300 px-3 border "
+                type="text"
+                name=""
+                id=""
+              />
+              <button
+                onClick={addUser}
+                className="px-3 ml-3 mr-3 bg-green-700 rounded text-white"
+              >
+                add user
+              </button>
+            </div>
           </>
         );
       })}
