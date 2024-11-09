@@ -166,10 +166,12 @@ export function AppSidebar({
                   <Command className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate -mb-2 font-semibold text-xl">EVM</span>
-                  <span className="bg-gradient-to-r text-transparent bg-clip-text text-lg from-red-800 to-blue-800 truncate ">
-                    {/* by Techfellows */}
+                  <span className="truncate -mb-2 font-semibold text-lg">
+                    PRO
                   </span>
+                  {/* <span className="bg-gradient-to-r text-transparent bg-clip-text text-lg from-red-800 to-blue-800 truncate ">
+                    by Techfellows
+                  </span> */}
                 </div>
               </a>
             </SidebarMenuButton>
