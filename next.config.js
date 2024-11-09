@@ -77,7 +77,7 @@ const nextConfig = {
 //     ];
 //   },
   images: {
-    domains: ["images.unsplash.com", "images.pexels.com","insfpburxkdhymwannsq.supabase.co"],
+    domains: ["images.unsplash.com", "fakestoreapi.com","images.pexels.com","insfpburxkdhymwannsq.supabase.co"],
   },
 };
 
