@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/popover";
 import { supabase } from "@/app/util/supabase/client";
 
-export default function CompaniesCombobox({
+export default function   CompaniesCombobox({
   getSelectedValue,
   classnames,
 }: {
@@ -53,6 +53,7 @@ export default function CompaniesCombobox({
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
+          
             variant="outline"
             role="combobox"
             aria-expanded={open}
@@ -65,7 +66,7 @@ export default function CompaniesCombobox({
         <PopoverContent className="w-full p-0">
           <Command>
             <CommandInput placeholder="Search company..." />
-            <CommandList>
+            <CommandList >
               <CommandEmpty>No data found.</CommandEmpty>
               <CommandGroup>
                 {companiesList &&

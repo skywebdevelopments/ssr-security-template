@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 function page() {
   return (
     <Dashboard>
-      <div className="flex flex-wrap flex-row">
+      <div className="flex justify-center flex-wrap flex-row">
         <CardContainer
           classes={"  mx-4"}
           title="Secured Identity Management"

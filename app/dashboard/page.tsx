@@ -10,13 +10,13 @@ import { isSessionAlive, RetrieveServerSession } from "../util/client.keycloak";
 import BreadCrumb from "@/components/app-widgets/BreadCrumb";
 
 export default async function Page({ children }: { children: any }) {
-  await isSessionAlive();
+  //  TODO : enable this
+  // await isSessionAlive();
   const serverSession = await RetrieveServerSession();
 
-  
   return (
     <SidebarProvider>
-      <AppSidebar user={serverSession.user} />
+      <AppSidebar user={serverSession?.user} />
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2">
           <div className="flex items-center gap-2 px-4">

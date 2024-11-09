@@ -8,8 +8,6 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Alert } from "@/components/ui/alert";
 import CardContainer from "../../CardContainer";
-import { TrendingUp } from "lucide-react";
-import { ChartContainer } from "@/components/ui/chart";
 type FormValues = {
   name: string;
   email: string;
@@ -38,6 +36,7 @@ function CreateCompanyComponent() {
 
   return (
     <>
+    
       <CardContainer classes={''} title="My Companies" subtitle="create a company">
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -58,9 +57,9 @@ function CreateCompanyComponent() {
             <Input id="picture" type="file" />
           </div>
           <Input
-            {...register("name", { required: true })}
             type="text"
             placeholder="Company Name"
+            {...register("name", { required: true })}
             className={`${errors.name ? "border-red-500" : ""}`}
           />
           <Input

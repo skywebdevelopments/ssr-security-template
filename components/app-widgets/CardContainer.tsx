@@ -16,12 +16,12 @@ function CardContainer({
 }: {
   classes?: any;
   children: any;
-  title: string;
-  subtitle: string;
+  title?: string;
+  subtitle?: string;
 }) {
   return (
     <div className={`${classes}`}>
-      <Card className="flex flex-col">
+      <Card className="flex border-none flex-col">
         <CardHeader className="items-start pb-0">
           <CardTitle>{title}</CardTitle>
           <CardDescription>{subtitle}</CardDescription>

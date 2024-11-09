@@ -1,9 +1,10 @@
 // app/api/auth/logout/route.ts
+import { RetrieveServerSession } from "@/app/util/client.keycloak";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
   const response = await fetch(
-    `${process.env.KEYCLOAK_AUTH_SERVER_URL}/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/token`,
+    `${process.env.KEYCLOACK_URL}/realms/${process.env.KEYCLOACK_REALM}/protocol/openid-connect/token`,
     {
       method: "POST",
       headers: {
@@ -13,16 +14,16 @@ export async function GET(req: Request) {
         username: process.env.KEYCLOAK_ADMIN_CLIENT_ID,
         password: process.env.KEYCLOAK_ADMIN_CLIENT_SECRET,
         grant_type: "password",
-        client_id: "CIB-Bank",
-        client_secret: "rL5udAbyLKAidxXdrVL7HzrPvOzs6ptf",
+        client_id: process.env.KEYCLOAK_CLIENT_ID,
+        client_secret: process.env.KEYCLOAK_CLIENT_SECRET,
         scope: "openid",
       } as any),
     }
   );
 
   const data = await response.json();
-
-  const userId = "6105b67a-c7f8-4547-a3f6-bba35ab9c379"; // User ID fetched from the session or other means
+  let userSession = await RetrieveServerSession();
+  const userId = userSession.sub; // User ID fetched from the session or other means
   // Make API call to invalidate the session in Keycloak
   const responses = await fetch(
     `${process.env.KEYCLOAK_AUTH_SERVER_URL}/admin/realms/${process.env.KEYCLOAK_REALM}/users/${userId}/logout`,
@@ -31,10 +32,8 @@ export async function GET(req: Request) {
       headers: {
         Authorization: `Bearer ${data.access_token}`,
       },
-   
     }
   );
-
 
   if (responses.ok) {
     // Clear NextAuth.js session

@@ -34,7 +34,6 @@ import {
   ChartTooltipContent,
 } from "@/components//ui/chart";
 import { Separator } from "@/components//ui/separator";
-import { CAUsersTable } from "./UsersTable";
 
 export const description = "A collection of health charts.";
 
