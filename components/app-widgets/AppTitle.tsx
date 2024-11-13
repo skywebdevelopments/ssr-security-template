@@ -1,7 +1,7 @@
 "use client";
 
 import { signOut } from "next-auth/react";
-import ButtonSignOut from "./ButtonSignOut";
+
 type UserSession = {
   name: string;
   sid: string;
